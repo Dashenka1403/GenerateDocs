@@ -1,0 +1,6 @@
+@GenerateDocs_HostAddress = http://localhost:5282
+
+GET {{GenerateDocs_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
