@@ -8,8 +8,9 @@ using System.Security.Claims;
 
 namespace GenerateDocs.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
+    
     public class AuthController : ControllerBase
     {
         private List<User> _users = new List<User>
@@ -17,6 +18,7 @@ namespace GenerateDocs.Controllers
             new User{Login = "admin2342", Password = "0000", Role = "Admin"},
             new User{Login = "user4444", Password = "1111", Role = "User"}
         };
+        [HttpPost("/login")]
         public IActionResult Login(string username, string password, string role)
         {
             var identity = GetIdentity(username, password, role);
@@ -37,7 +39,8 @@ namespace GenerateDocs.Controllers
             var response = new
             {
                 acces_token = encodedJwt,
-                username = identity.Name
+                username = identity.Name,
+                role = identity.Claims.FirstOrDefault(c => c.Type.Contains("role"))?.Value
             };
 
             return Ok(JsonConvert.SerializeObject(response));
